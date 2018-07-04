@@ -12,6 +12,7 @@
     user_secured: false
     user_name: admintest
     user_password: admin1234
+    user_homedir: /home/admintest
     
     
     
