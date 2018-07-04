@@ -10,6 +10,7 @@
       become: true
       win_shell: |
              Import-Module -Name VMware.PowerCLI
+             Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -confirm:$false
              Connect-VIServer -Server 10.126.254.11 -User administrator@vsphere.local -Password admin1234
              New-Datacenter -Location (Get-Folder -NoRecursion) -Name “TEST”
              New-Cluster -Location TEST -Name Servers -HAEnabled
