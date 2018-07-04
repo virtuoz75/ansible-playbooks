@@ -1,5 +1,5 @@
 - name: Creating a new DC with my name
-  hosts: mypc
+  hosts: 192.168.1.37
   gather_facts: false
   
   vars:
