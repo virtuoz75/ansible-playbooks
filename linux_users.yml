@@ -36,12 +36,6 @@
         - user_name is defined
         - user_password is defined
 
-    - name: Set default user_homedir if undefined
-      set_fact:
-        user_homedir: "{{ hostvars[inventory_hostname]['getent_passwd'][user_name][4] }}"
-      when: 
-        - user_homedir is undefined
-
     - block:
         - name: Ensure permissions are set on {{ user_name }} files
           file:
