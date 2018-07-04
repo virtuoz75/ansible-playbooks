@@ -59,4 +59,4 @@
             mode: '0750'
           - path: '{{ user_homedir }}/.profile'
             mode: '0700'
-      when: user_secured
+
