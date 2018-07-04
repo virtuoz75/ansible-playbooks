@@ -1,0 +1,16 @@
+- name: Creating a new DC with my name
+  hosts: mypc
+  gather_facts: false
+  
+  vars:
+    user_secured: false
+    
+  tasks:
+    - name: Creating a new DC with my name
+      become: true
+      win_shell: |
+             Import-Module -Name VMware.PowerCLI
+             Set-PowerCLIConfiguration -InvalidCertificateAction Ignore
+             Connect-VIServer -Server 10.126.254.11 -User administrator@vsphere.local -Password admin1234
+             New-Datacenter -Location (Get-Folder -NoRecursion) -Name “TEST”
+             New-Cluster -Location TEST -Name Servers -HAEnabled
