@@ -2,8 +2,13 @@
   hosts: mypc
   gather_facts: false
   
-  vars:
-    user_secured: false
+  vars_prompt:
+    - name: "cpu_number"
+      prompt: "How many CPU ?"
+    - name: "datastore_name"
+      prompt: "What datastore name?"
+    - name: "memory_value"
+      prompt: "How many memory? (Mb)"
     
   tasks:
     - name: Creating a new DC with my name
@@ -14,4 +19,4 @@
              Connect-VIServer -Server 10.126.254.11 -User administrator@vsphere.local -Password admin1234
              New-Datacenter -Location (Get-Folder -NoRecursion) -Name JULIEN.PETIT
              New-Cluster -Location JULIEN.PETIT -Name STEVEN.PEDARD -HAEnabled
-             New-VM -Name ROMARIC.TRAN -Host 10.126.254.10 -NumCpu 1 -MemoryMB 1024 -Datastore datastore_126
+             New-VM -Name ROMARIC.TRAN -Host 10.126.254.10 -NumCpu {{ cpu_number }} -MemoryMB {{ memory_value }} -Datastore {{ datastore_name }}
