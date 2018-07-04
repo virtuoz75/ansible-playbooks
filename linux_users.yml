@@ -1,16 +1,19 @@
 # Define at run time :
 # user_name - always
 # user_password - to define password
-# user_salt - to define password
 # user_authkey - to define authorized ssh key
 # user_secured - to enforce security
 
 - name: Manages system users
-  hosts: "{{ target_machines | default('all') }}"
+  hosts: "{{ bind01-126 }}"
   gather_facts: false
   
   vars:
     user_secured: false
+    user_name: admintest
+    user_password: admin1234
+    
+    
     
   tasks:
     - name: Ensure {{ user_name }} is present
@@ -28,26 +31,16 @@
     - name: Set {{ user_name }} password
       user:
         name: '{{ user_name }}'
-        password: '{{ user_password | password_hash("sha512", user_salt) }}'
+        password: '{{ user_password }}'
       when: 
         - user_name is defined
         - user_password is defined
-        - user_salt is defined
 
-    - name: Find user_homedir if undefined 
-      getent:
-        database: passwd
-        key: '{{ user_name }}'
-      when: 
-        - user_homedir is undefined
-        - user_authkey is defined or user_secured
-     
     - name: Set default user_homedir if undefined
       set_fact:
         user_homedir: "{{ hostvars[inventory_hostname]['getent_passwd'][user_name][4] }}"
       when: 
         - user_homedir is undefined
-        - user_authkey is defined or user_secured
 
     - block:
         - name: Ensure permissions are set on {{ user_name }} files
@@ -73,13 +66,3 @@
           - path: '{{ user_homedir }}/.profile'
             mode: '0700'
       when: user_secured
-
-    - name: Deploys {{ user_name }} ssh_key into {{ user_homedir }}/.ssh/authorized_keys
-      lineinfile:
-        dest: '{{ user_homedir }}/.ssh/authorized_keys'
-        state: present
-        create: true
-        line: '{{ user_authkey }}'
-        owner: '{{ user_name }}'
-        mode: 0644
-      when: user_authkey is defined
