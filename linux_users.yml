@@ -5,7 +5,7 @@
 # user_secured - to enforce security
 
 - name: Manages system users
-  hosts: "{{ bind01-126 }}"
+  hosts: bind01-126
   gather_facts: false
   
   vars:
