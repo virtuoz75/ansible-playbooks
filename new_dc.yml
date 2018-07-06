@@ -12,4 +12,4 @@
              Connect-VIServer -Server 10.126.254.11 -User administrator@vsphere.local -Password admin1234
              New-Datacenter -Location (Get-Folder -NoRecursion) -Name JULIEN.PETIT
              New-Cluster -Location JULIEN.PETIT -Name STEVEN.PEDARD -HAEnabled
-             New-VM -Name ROMARIC.TRAN -Host 10.126.254.10 -NumCpu 1 -MemoryMB 1024 -Datastore datastore_126
+             New-VM -Name ROMARIC.TRAN -Host 10.126.254.10 -NumCpu {{ num_cpu }} -MemoryMB {{ num_memory }} -Datastore {{ datastore_name }}
