@@ -1,5 +1,5 @@
 - name: Creating a new DC with my name
-  hosts: mypc
+  hosts: {{ esx }}
   gather_facts: false
   
     
